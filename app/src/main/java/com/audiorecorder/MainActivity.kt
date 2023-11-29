@@ -8,19 +8,17 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.app.ActivityCompat
 import com.audiorecorder.playback.AndroidAudioPlayer
 import com.audiorecorder.record.AndroidAudioRecorder
 import com.audiorecorder.ui.theme.AudioRecorderTheme
 import java.io.File
-import androidx.compose.material3.Text
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Row
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 
 class MainActivity : ComponentActivity() {
 
@@ -48,28 +46,62 @@ class MainActivity : ComponentActivity() {
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Button(onClick = {
-                        File(cacheDir, "audio.mp3").also {
-                            recorder.start(it)
-                            audioFile = it
+                    Row(
+                        modifier = Modifier.fillMaxSize().weight(1f),
+                        horizontalArrangement = Arrangement.SpaceEvenly,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Button(
+                            onClick = {
+                                File(cacheDir, "audio.mp3").also {
+                                    recorder.start(it)
+                                    audioFile = it
+                                }
+                            },
+                            modifier = Modifier.weight(1f)
+                        ) {
+                            Image(
+                                painter = painterResource(id = R.drawable.ic_start_recording),
+                                contentDescription = "Start recording",
+                                // modifier = Modifier.size(48.dp)
+                            )
                         }
-                    }) {
-                        Text(text = "Start recording")
-                    }
-                    Button(onClick = {
-                        recorder.stop()
-                    }) {
-                        Text(text = "Stop recording")
-                    }
-                    Button(onClick = {
-                        player.playFile(audioFile ?: return@Button)
-                    }) {
-                        Text(text = "Play")
-                    }
-                    Button(onClick = {
-                        player.stop()
-                    }) {
-                        Text(text = "Stop playing")
+                        Button(
+                            onClick = {
+                                recorder.stop()
+                            },
+                            modifier = Modifier.weight(1f)
+                        ) {
+                            Image(
+                                painter = painterResource(id = R.drawable.ic_stop_recording),
+                                contentDescription = "Stop recording",
+                                // modifier = Modifier.size(48.dp)
+                            )
+                        }
+                        Button(
+                            onClick = {
+                                player.playFile(audioFile ?: return@Button)
+                            },
+                            modifier = Modifier.weight(1f)
+                        ) {
+                            Image(
+                                painter = painterResource(id = R.drawable.ic_play_audio),
+                                contentDescription = "Play",
+                                // modifier = Modifier.size(48.dp)
+                            )
+                        }
+                        Button(
+                            onClick = {
+                                player.stop()
+                            },
+                            modifier = Modifier.weight(1f)
+                        ) {
+                            Image(
+                                painter = painterResource(id = R.drawable.ic_pause_audio),
+                                contentDescription = "Stop playing"
+                            )
+                            // modifier = Modifier.size(48.dp)
+                        }
                     }
                 }
             }
