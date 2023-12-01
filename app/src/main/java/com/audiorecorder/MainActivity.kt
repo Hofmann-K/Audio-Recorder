@@ -66,10 +66,26 @@ class MainActivity : ComponentActivity() {
                 )
             }
 
-            // Rest of your content
+            // Box for the image
+            Box(
+                modifier = Modifier
+                    .size(300.dp) // Adjust size as needed
+                    .padding(5.dp) // Add padding to separate from the top bar
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.memos),
+                    contentDescription = "Memos Image",
+                    modifier = Modifier
+                        .fillMaxSize()
+                        //.offset(y = (-2).dp)
+                )
+            }
+
+            // Row of buttons
             Row(
                 modifier = Modifier
                     .fillMaxSize()
+                    .offset(y = (-100).dp)
                     .weight(1f), // Occupy available space
                 horizontalArrangement = Arrangement.SpaceEvenly, // Space between children
                 verticalAlignment = Alignment.CenterVertically // Center vertically
@@ -165,8 +181,8 @@ class MainActivity : ComponentActivity() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp) // Adjust padding as needed
-                    .offset(y = (-250).dp), // Adjust the offset to move the status text down
-            contentAlignment = Alignment.Center
+                    .offset(y = (-230).dp), // Adjust the offset to move the status text up
+                contentAlignment = Alignment.Center
             ) {
                 Text("Recording Status: ${if (isRecording) "Recording" else "Not Recording"}", textAlign = TextAlign.Center)
             }
