@@ -8,11 +8,12 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.app.ActivityCompat
@@ -32,6 +33,7 @@ class MainActivity : ComponentActivity() {
     }
 
     private var audioFile: File? = null
+    private var isRecording by mutableStateOf(false) // Added variable to track recording status
 
     // Preview function for Jetpack Compose UI
     @Preview
@@ -44,22 +46,23 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun MainActivityContent() {
+        // Main UI structure starts here
         Column(
             modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.CenterHorizontally
+            verticalArrangement = Arrangement.Top, // Align children from the top
+            horizontalAlignment = Alignment.CenterHorizontally // Center horizontally
         ) {
             // Custom top bar
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(48.dp) // Adjust the height as needed
-                    .background(MaterialTheme.colorScheme.primary),
-                contentAlignment = Alignment.Center
+                    .height(48.dp) // Height of the custom top bar
+                    .background(MaterialTheme.colorScheme.primary), // Background color
+                contentAlignment = Alignment.Center // Center content within the Box
             ) {
                 Text(
                     text = "Audio Playback App Demo",
-                    color = Color.White
+                    color = Color.White // White text color
                 )
             }
 
@@ -67,57 +70,105 @@ class MainActivity : ComponentActivity() {
             Row(
                 modifier = Modifier
                     .fillMaxSize()
-                    .weight(1f),
-                horizontalArrangement = Arrangement.SpaceEvenly,
-                verticalAlignment = Alignment.CenterVertically
+                    .weight(1f), // Occupy available space
+                horizontalArrangement = Arrangement.SpaceEvenly, // Space between children
+                verticalAlignment = Alignment.CenterVertically // Center vertically
             ) {
+                // Button for starting recording
                 Button(
                     onClick = {
                         File(cacheDir, "audio.mp3").also {
-                            recorder.start(it)
+                            recorder.start(it) // Start recording
                             audioFile = it
+                            isRecording = true // Update recording status
                         }
                     },
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f) // Occupy equal space with other buttons
                 ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_start_recording),
-                        contentDescription = "Start recording",
-                    )
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center // Center content vertically
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_start_recording),
+                            contentDescription = "Start recording",
+                            modifier = Modifier.size(48.dp) // Adjust size as needed
+                        )
+                        Text("Start Record", textAlign = TextAlign.Center)
+                    }
                 }
+
+                // Button for stopping recording
                 Button(
                     onClick = {
-                        recorder.stop()
+                        recorder.stop() // Stop recording
+                        isRecording = false // Update recording status
                     },
                     modifier = Modifier.weight(1f)
                 ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_stop_recording),
-                        contentDescription = "Stop recording",
-                    )
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center // Center content vertically
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_stop_recording),
+                            contentDescription = "Stop recording",
+                            modifier = Modifier.size(48.dp) // Adjust size as needed
+                        )
+                        Text("Stop Record", textAlign = TextAlign.Center)
+                    }
                 }
+
+                // Button for playing recorded audio
                 Button(
                     onClick = {
                         player.playFile(audioFile ?: return@Button)
                     },
                     modifier = Modifier.weight(1f)
                 ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_play_audio),
-                        contentDescription = "Play",
-                    )
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center // Center content vertically
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_play_audio),
+                            contentDescription = "Play",
+                            modifier = Modifier.size(48.dp) // Adjust size as needed
+                        )
+                        Text("Play Audio", textAlign = TextAlign.Center)
+                    }
                 }
+
+                // Button for stopping audio playback
                 Button(
                     onClick = {
-                        player.stop()
+                        player.stop() // Stop playing audio
                     },
                     modifier = Modifier.weight(1f)
                 ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_pause_audio),
-                        contentDescription = "Stop playing"
-                    )
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center // Center content vertically
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_pause_audio),
+                            contentDescription = "Stop playing",
+                            modifier = Modifier.size(48.dp) // Adjust size as needed
+                        )
+                        Text("Stop Audio", textAlign = TextAlign.Center)
+                    }
                 }
+            }
+
+            // Status text
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp) // Adjust padding as needed
+                    .offset(y = (-250).dp), // Adjust the offset to move the status text down
+            contentAlignment = Alignment.Center
+            ) {
+                Text("Recording Status: ${if (isRecording) "Recording" else "Not Recording"}", textAlign = TextAlign.Center)
             }
         }
     }
