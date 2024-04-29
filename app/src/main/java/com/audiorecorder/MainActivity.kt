@@ -61,7 +61,7 @@ class MainActivity : ComponentActivity() {
                 contentAlignment = Alignment.Center // Center content within the Box
             ) {
                 Text(
-                    text = "Audio Playback App Demo",
+                    text = "Audio Playback App Demo", // Name of the program
                     color = Color.White // White text color
                 )
             }
