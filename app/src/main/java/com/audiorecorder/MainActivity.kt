@@ -61,7 +61,7 @@ class MainActivity : ComponentActivity() {
                 contentAlignment = Alignment.Center // Center content within the Box
             ) {
                 Text(
-                    text = "Audio Playback App Demo", // Name of the program
+                    text = "Audio Streaming App Demo", // Name of the program
                     color = Color.White // White text color
                 )
             }
@@ -135,6 +135,7 @@ class MainActivity : ComponentActivity() {
                     }
                 }
 
+                /*
                 // Button for playing recorded audio
                 Button(
                     onClick = {
@@ -174,6 +175,7 @@ class MainActivity : ComponentActivity() {
                         Text("Stop Audio", textAlign = TextAlign.Center)
                     }
                 }
+                */
             }
 
             // Status text
@@ -184,7 +186,7 @@ class MainActivity : ComponentActivity() {
                     .offset(y = (-230).dp), // Adjust the offset to move the status text up
                 contentAlignment = Alignment.Center
             ) {
-                Text("Recording Status: ${if (isRecording) "Recording" else "Not Recording"}", textAlign = TextAlign.Center)
+                Text("Streaming Status: ${if (isRecording) "Streaming" else "Not Streaming"}", textAlign = TextAlign.Center)
             }
         }
     }
